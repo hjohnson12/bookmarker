@@ -54,62 +54,63 @@ function test() {
 
 function setup() {
     // Load categories from DB
-    fetch("http://localhost/www/bookmarker/scripts/test-insertCategory.php", {
-                method: "POST",
+    let parsedJson;
+    const result = fetch("http://localhost/www/bookmarker/scripts/test-fetchCategories2.php", {
+                method: "GET",
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                    "Content-Type": "application/json",
                 },
-                body: `categoryName=${categoryName}`,
             })
             .then((response) => response.text())
             .then((res) => {
-                categoryID = res;
+                console.log(res);
+                console.log("\n");
+                console.log(JSON.parse(res));
 
-                document.getElementById("testResult").innerHTML = categoryID;
-
-                alert(categoryID);
-
-                if (categoryID !== '' || categoryID != null) {
-                    // Create new category obj with empty bookmarks
-                    bookmarkCategories.push({
-                        category: categoryName, 
-                        bookmarks: [] 
-                    });
-
-                    // var ul = document.querySelector("#categoryItems");
-                    addItemToCategories(categoryName);
-                }
+                // Parse json and add items to bookmark categories
+                parsedJson = JSON.parse(res);
             });
 
-    // Add categories to nav items upon load
-    for (var i = 0; i < bookmarkCategories.length; i++) {
-        addNavItem(bookmarkCategories[i].category);
-    }
+    // Continue setup of page
+    result.then(r => {
+        // Add parsed items to bookmark categories array
+        for (var i = 0; i < parsedJson.length; i++) {
+            bookmarkCategories.push({
+                category: parsedJson[i].categoryName, 
+                bookmarks: [] 
+            });
+        }
 
-    addClickListenerToNavItems();
-    selectDefaultCategory();
+        // Add categories to nav items upon load
+        for (var i = 0; i < bookmarkCategories.length; i++) {
+            addNavItem(bookmarkCategories[i].category);
+        }
 
-    // Set sidebar collapse button click
-    let sidebar = document.querySelector(".sidebar");
-    let sidebarBtn = document.querySelector(".bx-menu");
-    sidebarBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("close");
-    });
-   
-    configureModalEvents();
+        addClickListenerToNavItems();
+        selectDefaultCategory();
+
+        // Set sidebar collapse button click
+        let sidebar = document.querySelector(".sidebar");
+        let sidebarBtn = document.querySelector(".bx-menu");
+        sidebarBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+        });
     
-    // DEBUG - add items in span to a temp array 
-    var navItems = document.querySelectorAll("#nav-links li a span");
-    for (var i = 0; i < navItems.length; i++) {
-        navItemsAsStrings.push(navItems[i].innerHTML);
-    }
+        configureModalEvents();
+        
+        // DEBUG - add items in span to a temp array 
+        var navItems = document.querySelectorAll("#nav-links li a span");
+        for (var i = 0; i < navItems.length; i++) {
+            navItemsAsStrings.push(navItems[i].innerHTML);
+        }
 
-    // Set sidebar to close when small width
-    var x = window.matchMedia("(max-width: 850px)");
-    closeSidebarOnWidthChange(x) // Call listener function at run time
-    x.addEventListener("change", closeSidebarOnWidthChange); // Attach listener function on state changes
+        // Set sidebar to close when small width
+        var x = window.matchMedia("(max-width: 850px)");
+        closeSidebarOnWidthChange(x) // Call listener function at run time
+        x.addEventListener("change", closeSidebarOnWidthChange); // Attach listener function on state changes
 
-    test();
+        test();
+    });
 }
 
 function configureModalEvents() {

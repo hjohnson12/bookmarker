@@ -1,5 +1,6 @@
 var bookmarks = [];
 let currentCategory = "";
+let scriptsUrl = 'http://localhost/www/bookmarker/scripts';
 const bookmarkCategories = [
     {
         category: "Main Category", 
@@ -52,6 +53,34 @@ function test() {
 }
 
 function setup() {
+    // Load categories from DB
+    fetch("http://localhost/www/bookmarker/scripts/test-insertCategory.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                },
+                body: `categoryName=${categoryName}`,
+            })
+            .then((response) => response.text())
+            .then((res) => {
+                categoryID = res;
+
+                document.getElementById("testResult").innerHTML = categoryID;
+
+                alert(categoryID);
+
+                if (categoryID !== '' || categoryID != null) {
+                    // Create new category obj with empty bookmarks
+                    bookmarkCategories.push({
+                        category: categoryName, 
+                        bookmarks: [] 
+                    });
+
+                    // var ul = document.querySelector("#categoryItems");
+                    addItemToCategories(categoryName);
+                }
+            });
+
     // Add categories to nav items upon load
     for (var i = 0; i < bookmarkCategories.length; i++) {
         addNavItem(bookmarkCategories[i].category);
@@ -276,9 +305,27 @@ function addItemToCategories(categoryName, index) {
     deleteBtn.classList.add("delete-category-button");
     deleteBtn.addEventListener('click', () => {
         var currentIndex = index;
-        var i = bookmarkCategories.findIndex(c => c.category === category);
-        bookmarkCategories.splice(i, 1);
-        ul.removeChild(liElem);
+
+        // Delete category from db
+        fetch(`${scriptsUrl}/test-deleteCategory.php`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                },
+                body: `categoryName=${category}`,
+            })
+            .then((response) => response.text())
+            .then((res) => {
+                document.getElementById("testResult").innerHTML = res;
+
+                if (res === "Deleted successfully!") {
+                    // Delete from in-memory array and update UI
+                    var i = bookmarkCategories.findIndex(c => c.category === category);
+                    bookmarkCategories.splice(i, 1);
+                    ul.removeChild(liElem);
+                }
+            })
+            .catch(error => alert(error));
     });
 
     // Configure rename button

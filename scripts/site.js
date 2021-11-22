@@ -27,11 +27,9 @@ function setup() {
             })
             .then((response) => response.text())
             .then((res) => {
-                console.log(res);
-                console.log("\n");
                 console.log(JSON.parse(res));
 
-                // Parse json and add items to bookmark categories
+                // Parse json
                 parsedJson = JSON.parse(res);
             });
 
@@ -55,15 +53,12 @@ function setup() {
             })
             .then((response) => response.text())
             .then((res) => {
-                alert(res);
-                console.log(res);
-                console.log("\n");
                 console.log(JSON.parse(res));
 
-                // Parse json and add items to bookmark categories
+                // Parse json
                 parsedJson = JSON.parse(res);
             });
-            
+
         result2.then(r => {
 
             // Load bookmarks into their respective categories

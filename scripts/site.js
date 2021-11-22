@@ -42,7 +42,7 @@ const bookmarkCategories = [
 var navItemsAsStrings = [];
 
 function test() {
-    bookmarkCategories.forEach(bookmarkCategory => {
+    bookmarkCategoriesTest.forEach(bookmarkCategory => {
         console.log("Category: " + bookmarkCategory.category);
         bookmarkCategory.bookmarks.forEach(bookmark => {
             var outputString = `Bookmark: ${bookmark.name}, Url: ${bookmark.url}`;
@@ -84,11 +84,15 @@ function setup() {
 
 function configureModalEvents() {
     var modal = document.getElementById("categoriesModal");
+    let sidebar = document.querySelector(".sidebar");
 
     // When the user clicks on the button, open the modal
     const editCategoriesBtn = document.querySelector("#btnAdd");
     editCategoriesBtn.onclick = function () {
         var categoriesCopy2 = bookmarkCategories;
+
+        // Close sidebar
+        sidebar.classList.toggle("close");
 
         var ul = document.querySelector("#categoryItems");
         ul.innerHTML = '';
@@ -123,6 +127,8 @@ function configureModalEvents() {
 
     const saveCategoriesBtn = document.getElementById("saveCategoriesButton");
     saveCategoriesBtn.onclick = function () {
+        sidebar.classList.toggle("close");
+
         // Save list of categories to db, verify data first
         var navLinks = document.querySelector('#nav-links');
         navLinks.innerHTML = '';
@@ -365,7 +371,6 @@ function visitBookmark() {
 }
 
 function previewBookmark() {
-
 }
 
 function deleteBookmark(bookmarkTitle) {

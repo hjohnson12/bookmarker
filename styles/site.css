@@ -339,9 +339,16 @@
     border: 1px solid red;
 }
 
+.bookmark-footer {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-evenly;
+}
+
 .bookmark-footer > button {
     padding: 4px;
     margin: 4px;
+    width: 75px;
 }
 
 .bookmark-body {
@@ -394,7 +401,8 @@
     margin: 10% auto; /* 10% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 40%; /* Could be more or less, depending on screen size */
+    width: 30%; /* Could be more or less, depending on screen size */
+    min-width: 200px; /* Prevent from getting too small */
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
@@ -448,12 +456,19 @@
   }
 
   .category-item {
-      border: 1px solid red;
+      border: 1px solid #bdb0b0;
+      border-radius: 4px;
       padding-left: 10px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
 
   #category-name {
       padding: 4px;
+  }
+
+  .category-name-label {
+      display: block;
+      text-decoration: underline;
   }
 
   #addCategoryBtn {

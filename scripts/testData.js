@@ -1,24 +1,90 @@
-var bookmarkCategories = ["Default Category", "Cat2", "Cat3", "Cat4", "Cat5", "my favorite movie links", "catielslalwkejfielsa;slejfeislakd"];
-
-const bookmarkCategories2 = [
+const bookmarkCategoriesTest = [
+    {
+        category: "Main Category", 
+        bookmarks: [
+            {
+                name: "Bookmark1",
+                url: "www.testtttttttt.com"
+            },
+            {
+                name: "Bookmark2",
+                url: "www.testtttttttttt.com"
+            },
+            {
+                name: "Bookmark3",
+                url: "www.testtttttttttttt.com"
+            },
+            {
+                name: "Bookmark4",
+                url: "www.testttttttttt.com"
+            },
+            {
+                name: "Bookmark5",
+                url: "www.testtttttttttttt.com"
+            }
+        ]
+    },
     {
         category: "Default Category", 
         bookmarks: [
             {
                 name: "Bk1",
                 url: "www.test.com"
+            },
+            {
+                name: "Bk2",
+                url: "www.test.com"
+            },
+            {
+                name: "Bk3",
+                url: "www.test.com"
+            },
+            {
+                name: "Bk4",
+                url: "www.test.com"
             }
         ]
     },
     {
         category: "Category1",
-        bookmarks: ["Bookmark1", "Bookmark2", "Bookmark3"]
+        bookmarks: [
+            {
+                name: "fdsafdafda",
+                url: "fafda"
+            },
+            {
+                name: "fdsa",
+                url: "fafda"
+            },
+            {
+                name: "fafa",
+                url: "fafda"
+            },
+            {
+                name: "fewafewafe",
+                url: "fafda"
+            }
+        ]
     },
     {
-        category: "Category22",
-        bookmarks: ["CatBookmark1", "Catbookmark2"]
+        category: "Category2",
+        bookmarks: [
+            {
+                name: "Some bookmark",
+                url: "fdsafafas"
+            },
+            {
+                name: "Some bookmark 2",
+                url: "fdsafafas"
+            },
+            {
+                name: "Some bookmark 3",
+                url: "fdsafafas"
+            },
+            {
+                name: "Some bookmark 4",
+                url: "fdsafafas"
+            }
+        ]
     }
 ];
-
-exports.bookmarkCategories = bookmarkCategories;
-exports.bookmarkCategories2 = bookmarkCategories2;

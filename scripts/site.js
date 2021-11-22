@@ -1,4 +1,3 @@
-var categories = ["Default Category", "Cat2", "Cat3", "Cat4", "Cat5", "my favorite movie links", "catielslalwkejfielsa;slejfeislakd"];
 var bookmarks = [];
 let currentCategory = "";
 const bookmarkCategories = [
@@ -71,7 +70,6 @@ function setup() {
     
     // DEBUG - add items in span to a temp array 
     var navItems = document.querySelectorAll("#nav-links li a span");
-    var navItemIndex;
     for (var i = 0; i < navItems.length; i++) {
         navItemsAsStrings.push(navItems[i].innerHTML);
     }
@@ -92,16 +90,6 @@ function configureModalEvents() {
     editCategoriesBtn.onclick = function () {
         var categoriesCopy2 = bookmarkCategories;
 
-        // Remove later
-        // for (var i = 0; i < categories.length; i++) {
-        //     if (!bookmarkCategories.some(b => b.category === categories[i])) {
-        //         bookmarkCategories.push({
-        //             category: categories[i],
-        //             bookmarks: []
-        //         });
-        //     }
-        // }
-
         var ul = document.querySelector("#categoryItems");
         ul.innerHTML = '';
 
@@ -113,14 +101,6 @@ function configureModalEvents() {
             })();
         }
 
-        // Fill list of categories in ul element
-        // for (var i = 0; i < categories.length; i++) {
-        //     (function() {
-        //         var index = i;
-        //         addItemToCategories(categories[i], index);
-        //     })();
-        // }
-
         // Display the modal
         modal.style.display = "block";
     }
@@ -129,13 +109,11 @@ function configureModalEvents() {
     addCategoryBtn.addEventListener('click', () => {
         var categoryName = document.querySelector("#category-name").value;
         if (categoryName != "") {
-            categories.push(categoryName);
-            console.log(categories);
 
-            // test
+            // Create new category obj with empty bookmarks
             bookmarkCategories.push({
                 category: categoryName, 
-                bookmarks: [] // Empty bookmarks for new category
+                bookmarks: [] 
             });
 
             // var ul = document.querySelector("#categoryItems");
@@ -148,12 +126,8 @@ function configureModalEvents() {
         // Save list of categories to db, verify data first
         var navLinks = document.querySelector('#nav-links');
         navLinks.innerHTML = '';
-        // categories.pop();
 
-        // for(var i = 0; i < categories.length; i++) {
-        //     addNavItem(categories[i]);
-        // }
-
+        // Re-create navigation items
         for(var i = 0; i < bookmarkCategories.length; i++) {
             addNavItem(bookmarkCategories[i].category);
         }
@@ -183,10 +157,9 @@ function addClickListenerToNavItems() {
     for (var i = 0; i < navItems.length; i++) {
         navItems[i].onclick = function () {
             // navItemIndex = navItemsAsStrings.indexOf(this.innerHTML);
-            navItemIndex = categories.indexOf(this.innerHTML);
             categorySpan.innerHTML = this.innerHTML;
 
-            // TEST - add array items to screen
+            // Add array items to the bookmarks element on screen
             var div = document.querySelector(".bookmarks");
             div.innerHTML = '';
 
@@ -262,7 +235,6 @@ function addItemToCategories(categoryName, index) {
     deleteBtn.addEventListener('click', () => {
         var currentIndex = index;
         var i = bookmarkCategories.findIndex(c => c.category === category);
-        categories.splice(i, 1);
         bookmarkCategories.splice(i, 1);
         ul.removeChild(liElem);
     });

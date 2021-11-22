@@ -78,6 +78,9 @@
                     <button class="save-bookmark-btn">Save Bookmark</button>
                 </form>
                 <h2>Bookmarks</h2>
+                <form method="post" action="scripts/test-fetchCategories.php">
+                    <input type="submit" value="View categories">
+                </form>
                 <div class="bookmarks">
                     <ul>
                         <!-- For testing purposes -->
@@ -120,6 +123,7 @@
                         <input name="category-name" id="category-name" maxlength="30" type="text" placeholder="Category name">
                         <button type="button" id="addCategoryBtn">Add</button>
                     </form>
+                    <div id="testResult"></div>
                     <div>
                         <h3>Categories</h3>
                         <ul id="categoryItems"></ul>

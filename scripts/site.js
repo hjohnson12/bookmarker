@@ -115,14 +115,35 @@ function configureModalEvents() {
         var categoryName = document.querySelector("#category-name").value;
         if (categoryName != "") {
 
-            // Create new category obj with empty bookmarks
-            bookmarkCategories.push({
-                category: categoryName, 
-                bookmarks: [] 
-            });
+            let categoryID;
 
-            // var ul = document.querySelector("#categoryItems");
-            addItemToCategories(categoryName);
+            // TEST SAVE TO DB - 
+            fetch("http://localhost/www/bookmarker/scripts/test-insertCategory.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                },
+                body: `categoryName=${categoryName}`,
+            })
+            .then((response) => response.text())
+            .then((res) => {
+                categoryID = res;
+
+                document.getElementById("testResult").innerHTML = categoryID;
+
+                alert(categoryID);
+
+                if (categoryID !== '' || categoryID != null) {
+                    // Create new category obj with empty bookmarks
+                    bookmarkCategories.push({
+                        category: categoryName, 
+                        bookmarks: [] 
+                    });
+
+                    // var ul = document.querySelector("#categoryItems");
+                    addItemToCategories(categoryName);
+                }
+            });
         }
     });
 
@@ -221,6 +242,9 @@ function saveBookmark(e) {
         alert("Please fill out bookmark info");
         return;
     }
+
+    // TESTTTT - Insert into DB
+
 
     // Use categorySpan to get current selected category (for now)
     // Then add item to array

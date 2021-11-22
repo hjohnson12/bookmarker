@@ -58,6 +58,7 @@ function setup() {
     }
 
     addClickListenerToNavItems();
+    selectDefaultCategory();
 
     // Set sidebar collapse button click
     let sidebar = document.querySelector(".sidebar");
@@ -139,6 +140,7 @@ function configureModalEvents() {
         }
 
         addClickListenerToNavItems();
+        selectDefaultCategory();
         modal.style.display = "none";
     }
 
@@ -146,12 +148,14 @@ function configureModalEvents() {
     const closeSpan = document.querySelector(".close-modal");
     closeSpan.onclick = function () {
         modal.style.display = "none";
+        sidebar.classList.toggle("close");
     }
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
+            sidebar.classList.toggle("close");
         }
     }
 }
@@ -194,6 +198,14 @@ function addClickListenerToNavItems() {
             // debug - log in console
             console.log(this.innerHTML + " Index = " + indexOfCategory);
         }
+    }
+}
+
+function selectDefaultCategory() {
+    var navItems = document.querySelectorAll("#nav-links li a span");
+
+    if (navItems.length > 0) {
+        navItems[0].click();
     }
 }
 

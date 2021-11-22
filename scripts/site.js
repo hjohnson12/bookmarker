@@ -257,6 +257,8 @@ function saveBookmark(e) {
 
     let bookmarkName = document.getElementById("website-name").value;
     let bookmarkUrl = document.getElementById("website-url").value;
+    let category = document.querySelector(".text").innerHTML;
+
 
     // Validate user put in bookmark information
     if (bookmarkName === '' || bookmarkUrl === '') {
@@ -265,21 +267,38 @@ function saveBookmark(e) {
     }
 
     // TESTTTT - Insert into DB
+    // Delete category from db
+    const result = fetch(`${scriptsUrl}/insertBookmark.php`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        },
+        body: `categoryName=${category}&bookmarkName=${bookmarkName}&bookmarkUrl=${bookmarkUrl}`,
+    })
+    .then((response) => response.text())
+    .then((res) => {
+        document.getElementById("addResult").innerHTML = res;
+        // alert(res);
+        console.log(res);
+    })
+    .catch(error => alert(error));
 
+    // ...
+    result.then(r => {
+        // Use categorySpan to get current selected category (for now)
+        // Then add item to array
+        var currentCategory = document.querySelector(".text").innerHTML;
+        var categoryIndex = bookmarkCategories.findIndex(b => b.category === currentCategory);
+        bookmarkCategories[categoryIndex].bookmarks.push({
+            name: bookmarkName,
+            url: bookmarkUrl
+        });
 
-    // Use categorySpan to get current selected category (for now)
-    // Then add item to array
-    var currentCategory = document.querySelector(".text").innerHTML;
-    var categoryIndex = bookmarkCategories.findIndex(b => b.category === currentCategory);
-    bookmarkCategories[categoryIndex].bookmarks.push({
-        name: bookmarkName,
-        url: bookmarkUrl
+        // Create and add item to DOM
+        var li = newBookmark2(bookmarkName, bookmarkUrl);
+        var ul = document.querySelector("div.bookmarks > ul");
+        ul.appendChild(li);
     });
-
-    // Create and add item to DOM
-    var li = newBookmark2(bookmarkName, bookmarkUrl);
-    var ul = document.querySelector("div.bookmarks > ul");
-    ul.appendChild(li);
 }
 
 function addItemToCategories(categoryName, index) {

@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+
+<head>
+    <title>Bookmarker</title>
+    <meta charset="utf-8">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="styles/site.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <header>
+    </header>
+
+    <!-- Main Element -->
+    <main>
+        <!-- Sidebar Panel -->
+        <div class="sidebar">
+            <div class="logo-details">
+                <i class='bx bxs-bookmarks'></i>
+                <span class="logo_name">Bookmarker</span>
+            </div>
+            <div class="category-header">
+                <span class="category_header">Categories</span>
+                <button id="btnAdd" class="add-button"><i class='bx bx-edit-alt' ></i></button>
+            </div>
+            <ul id="nav-links" class="navigation-links">
+                <!-- For testing purposes -->
+                <!-- <li id="nav-item">
+                    <div class="icon-link">
+                        <a href="#">
+                            <i class='bx bx-collection'></i>
+                            <span class="nav-item-name">Main</span>
+                        </a>
+                    </div>
+                </li>
+                <li id="nav-item">
+                    <div class="icon-link">
+                        <a href="#">
+                            <i class='bx bx-collection'></i>
+                            <span class="nav-item-name">Category1</span>
+                        </a>
+                    </div>
+                </li>
+                <li id="nav-item">
+                    <div class="icon-link">
+                        <a href="#">
+                            <i class='bx bx-collection'></i>
+                            <span class="nav-item-name">Category2</span>
+                        </a>
+                    </div>
+                </li> -->
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <section class="main-section">
+            <div class="main-content">
+                <i class='bx bx-menu'></i>
+                <span class="text"></span>
+            </div>
+            <div class="bookmark-container">
+                <hr>
+                <form class="bookmark-form" onsubmit="saveBookmark(event)">
+                    <h2>Add Bookmark</h2>
+                    <div class="input-field">
+                        <label for="website-name">Website Name:</label>
+                        <input name="website-name" id="website-name" type="text" placeholder="Website name">
+                    </div>
+                    <div class="input-field">
+                        <label for="website-url">URL:</label>
+                        <input name="website-url" id="website-url" type="text" placeholder="https://github.com">
+                    </div>
+                    <button class="save-bookmark-btn">Save Bookmark</button>
+                </form>
+                <h2>Bookmarks</h2>
+                <div class="bookmarks">
+                    <ul>
+                        <!-- For testing purposes -->
+                        <!-- <li class="bookmark">
+                            <div>
+                                <div class="bookmark-header">
+                                    <span>Image Here</span>
+                                </div>
+                                <div class="bookmark-body">
+                                    <span>Title</span>
+                                    <span>Description</span>
+                                    <span>(url)</span>
+                                </div>
+                                <div class="bookmark-footer">
+                                    <button id="visitBtn">Visit</button>
+                                    <button id="previewBtn">Preview</button>
+                                    <button id="deleteBtn">Delete</button>
+                                </div>
+                            </div>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Modal -->
+        <div id="categoriesModal" class="modal">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <span class="close-modal">&times;</span>
+                    <h2>Edit Categories</h2>
+                    <hr>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <p>Add or remove categories using this window</p>
+                    <form class="categoryForm">
+                        <label for="category-name">New Category: </label>
+                        <input name="category-name" id="category-name" maxlength="30" type="text" placeholder="Category name">
+                        <button type="button" id="addCategoryBtn">Add</button>
+                    </form>
+                    <div>
+                        <h3>Categories</h3>
+                        <ul id="categoryItems"></ul>
+                    </div>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <hr>
+                    <button type="button" class="save-categories" id="saveCategoriesButton">Save</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+    </footer>
+
+    <!-- Main javascript file -->
+    <script src="scripts/site.js"></script>
+</body>
+
+</html>

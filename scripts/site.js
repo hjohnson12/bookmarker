@@ -277,7 +277,7 @@ function saveBookmark(e) {
     })
     .then((response) => response.text())
     .then((res) => {
-        document.getElementById("addResult").innerHTML = res;
+        document.getElementById("bookmarkOpResult").innerHTML = res;
         // alert(res);
         console.log(res);
     })
@@ -421,7 +421,7 @@ function newBookmark2(bookmarkName, bookmarkUrl="placeholderurl") {
     var deleteButton = document.createElement("button");
     deleteButton.id = "deleteBtn";
     deleteButton.innerHTML = "Delete";
-    deleteButton.addEventListener('click', () => deleteBookmark(bookmarkTitle.innerHTML));
+    deleteButton.addEventListener('click', () => deleteBookmark(bookmarkTitle.innerHTML, bookmarkUrl));
 
     footer.appendChild(visitButton);
     footer.appendChild(previewButton);
@@ -467,29 +467,47 @@ function visitBookmark() {
 function previewBookmark() {
 }
 
-function deleteBookmark(bookmarkTitle) {
+function deleteBookmark(bookmarkTitle, url) {
     // alert("Delete bookmark selected");
-    var title = bookmarkTitle;
     var currentCategory = document.querySelector(".text").innerHTML;
 
-    // Delete from in memory list
-    var categoryIndex = bookmarkCategories.findIndex(b => b.category === currentCategory);
-    var bookmarkIndex = bookmarkCategories[categoryIndex].bookmarks.findIndex(b => b.name === title);
-    bookmarkCategories[categoryIndex].bookmarks.splice(bookmarkIndex, 1);
+    // Delete bookmark from db
+    const result = fetch(`${scriptsUrl}/deleteBookmark.php`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        },
+        body: `&categoryName=${currentCategory}&bookmarkName=${bookmarkTitle}&bookmarkUrl=${url}`,
+    })
+    .then((response) => response.text())
+    .then((res) => {
+        document.getElementById("bookmarkOpResult").innerHTML = res;
 
-    // Continue deletion from DOM
-    // var test = document.querySelectorAll("div.bookmarks ul li");
-    var childElements = document.querySelectorAll("div.bookmark-body .bookmark-title");
-    var elementToDelete;
-    for (let elem of childElements) {
+        if (res === "Deleted successfully!") {
+            var title = bookmarkTitle;
 
-        // Get the specific li element to delete 
-        if (elem.innerHTML === title) {
-            elementToDelete = elem.parentNode.parentNode;
+            // Delete from in memory list
+            var categoryIndex = bookmarkCategories.findIndex(b => b.category === currentCategory);
+            var bookmarkIndex = bookmarkCategories[categoryIndex].bookmarks.findIndex(b => b.name === title);
+            bookmarkCategories[categoryIndex].bookmarks.splice(bookmarkIndex, 1);
+        
+            // Continue deletion from DOM
+            // var test = document.querySelectorAll("div.bookmarks ul li");
+            var childElements = document.querySelectorAll("div.bookmark-body .bookmark-title");
+            var elementToDelete;
+            for (let elem of childElements) {
+        
+                // Get the specific li element to delete 
+                if (elem.innerHTML === title) {
+                    elementToDelete = elem.parentNode.parentNode;
+                }
+            }
+        
+            let ul = document.querySelector("div.bookmarks > ul");
+            ul.removeChild(elementToDelete);
         }
-    }
-
-    document.querySelector("div.bookmarks > ul").removeChild(elementToDelete);
+    })
+    .catch(error => alert(error));
 }
 
 document.addEventListener("DOMContentLoaded", setup);

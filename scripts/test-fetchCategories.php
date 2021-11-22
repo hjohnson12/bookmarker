@@ -20,7 +20,7 @@
         <h1>Category List</h1>
         <?php
             foreach($categoryList as $category) {
-                echo $category['categoryName']. '<br>';
+                echo $category['categoryID'] . ': ' . $category['categoryName']. '<br>';
             }
         ?>
     </body>

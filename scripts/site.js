@@ -1,44 +1,7 @@
 var bookmarks = [];
 let currentCategory = "";
 let scriptsUrl = 'http://localhost/www/bookmarker/scripts';
-const bookmarkCategories = [
-    {
-        category: "Main Category", 
-        bookmarks: [
-            {
-                name: "Bookmark1",
-                url: "www.testtttt.com"
-            }
-        ]
-    },
-    {
-        category: "Default Category", 
-        bookmarks: [
-            {
-                name: "Bk1",
-                url: "www.test.com"
-            }
-        ]
-    },
-    {
-        category: "Category1",
-        bookmarks: [
-            {
-                name: "fdsafdafda",
-                url: "fafda"
-            }
-        ]
-    },
-    {
-        category: "Category2",
-        bookmarks: [
-            {
-                name: "Some other bookmark",
-                url: "fdsafafas"
-            }
-        ]
-    }
-];
+let bookmarkCategories = [];
 
 var navItemsAsStrings = [];
 
@@ -55,6 +18,7 @@ function test() {
 function setup() {
     // Load categories from DB
     let parsedJson;
+    let result2;
     const result = fetch("http://localhost/www/bookmarker/scripts/test-fetchCategories2.php", {
                 method: "GET",
                 headers: {
@@ -73,6 +37,7 @@ function setup() {
 
     // Continue setup of page
     result.then(r => {
+
         // Add parsed items to bookmark categories array
         for (var i = 0; i < parsedJson.length; i++) {
             bookmarkCategories.push({
@@ -80,36 +45,67 @@ function setup() {
                 bookmarks: [] 
             });
         }
-
-        // Add categories to nav items upon load
-        for (var i = 0; i < bookmarkCategories.length; i++) {
-            addNavItem(bookmarkCategories[i].category);
-        }
-
-        addClickListenerToNavItems();
-        selectDefaultCategory();
-
-        // Set sidebar collapse button click
-        let sidebar = document.querySelector(".sidebar");
-        let sidebarBtn = document.querySelector(".bx-menu");
-        sidebarBtn.addEventListener("click", () => {
-            sidebar.classList.toggle("close");
-        });
-    
-        configureModalEvents();
         
-        // DEBUG - add items in span to a temp array 
-        var navItems = document.querySelectorAll("#nav-links li a span");
-        for (var i = 0; i < navItems.length; i++) {
-            navItemsAsStrings.push(navItems[i].innerHTML);
-        }
+        // Retrieve bookmarks
+        result2 = fetch("http://localhost/www/bookmarker/scripts/fetchBookmarks.php", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+            .then((response) => response.text())
+            .then((res) => {
+                alert(res);
+                console.log(res);
+                console.log("\n");
+                console.log(JSON.parse(res));
 
-        // Set sidebar to close when small width
-        var x = window.matchMedia("(max-width: 850px)");
-        closeSidebarOnWidthChange(x) // Call listener function at run time
-        x.addEventListener("change", closeSidebarOnWidthChange); // Attach listener function on state changes
+                // Parse json and add items to bookmark categories
+                parsedJson = JSON.parse(res);
+            });
+            
+        result2.then(r => {
 
-        test();
+            // Load bookmarks into their respective categories
+            for (var i = 0; i < parsedJson.length; i++) {
+                var indexOfCategory = bookmarkCategories.findIndex(b => b.category === parsedJson[i].categoryName);
+                var category = bookmarkCategories[indexOfCategory];
+                category.bookmarks.push({
+                    name: parsedJson[i].bookmarkName,
+                    url: parsedJson[i].bookmarkUrl
+                });
+            }
+
+            // Add categories to nav items upon load
+            for (var i = 0; i < bookmarkCategories.length; i++) {
+                addNavItem(bookmarkCategories[i].category);
+            }
+
+            addClickListenerToNavItems();
+            selectDefaultCategory();
+
+            // Set sidebar collapse button click
+            let sidebar = document.querySelector(".sidebar");
+            let sidebarBtn = document.querySelector(".bx-menu");
+            sidebarBtn.addEventListener("click", () => {
+                sidebar.classList.toggle("close");
+            });
+
+            configureModalEvents();
+
+            // DEBUG - add items in span to a temp array 
+            var navItems = document.querySelectorAll("#nav-links li a span");
+            for (var i = 0; i < navItems.length; i++) {
+                navItemsAsStrings.push(navItems[i].innerHTML);
+            }
+
+            // Set sidebar to close when small width
+            var x = window.matchMedia("(max-width: 850px)");
+            closeSidebarOnWidthChange(x) // Call listener function at run time
+            x.addEventListener("change", closeSidebarOnWidthChange); // Attach listener function on state changes
+
+            test();
+        });
     });
 }
 

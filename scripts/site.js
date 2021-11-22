@@ -3,8 +3,6 @@ let currentCategory = "";
 let scriptsUrl = 'http://localhost/www/bookmarker/scripts';
 let bookmarkCategories = [];
 
-var navItemsAsStrings = [];
-
 function test() {
     bookmarkCategoriesTest.forEach(bookmarkCategory => {
         console.log("Category: " + bookmarkCategory.category);
@@ -19,7 +17,7 @@ function setup() {
     // Load categories from DB
     let parsedJson;
     let result2;
-    const result = fetch("http://localhost/www/bookmarker/scripts/test-fetchCategories2.php", {
+    const result = fetch("http://localhost/www/bookmarker/scripts/fetchCategories.php", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -88,12 +86,6 @@ function setup() {
 
             configureModalEvents();
 
-            // DEBUG - add items in span to a temp array 
-            var navItems = document.querySelectorAll("#nav-links li a span");
-            for (var i = 0; i < navItems.length; i++) {
-                navItemsAsStrings.push(navItems[i].innerHTML);
-            }
-
             // Set sidebar to close when small width
             var x = window.matchMedia("(max-width: 850px)");
             closeSidebarOnWidthChange(x) // Call listener function at run time
@@ -138,8 +130,8 @@ function configureModalEvents() {
 
             let categoryID;
 
-            // TEST SAVE TO DB - 
-            fetch("http://localhost/www/bookmarker/scripts/test-insertCategory.php", {
+            // Save category to database
+            fetch("http://localhost/www/bookmarker/scripts/insertCategory.php", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
@@ -208,7 +200,6 @@ function addClickListenerToNavItems() {
     var categorySpan = document.querySelector(".text");
     for (var i = 0; i < navItems.length; i++) {
         navItems[i].onclick = function () {
-            // navItemIndex = navItemsAsStrings.indexOf(this.innerHTML);
             categorySpan.innerHTML = this.innerHTML;
 
             // Add array items to the bookmarks element on screen
@@ -318,7 +309,7 @@ function addItemToCategories(categoryName, index) {
         var currentIndex = index;
 
         // Delete category from db
-        fetch(`${scriptsUrl}/test-deleteCategory.php`, {
+        fetch(`${scriptsUrl}/deleteCategory.php`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",

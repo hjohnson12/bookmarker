@@ -308,7 +308,7 @@ function addItemToCategories(categoryName, index) {
     deleteBtn.addEventListener('click', () => {
         var currentIndex = index;
 
-        // Delete category from db
+        // Delete category from db & its corresponding bookmarks
         fetch(`${scriptsUrl}/deleteCategory.php`, {
                 method: "POST",
                 headers: {

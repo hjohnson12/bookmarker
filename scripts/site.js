@@ -17,7 +17,7 @@ function setup() {
     // Load categories from DB
     let parsedJson;
     let result2;
-    const result = fetch("http://localhost/www/bookmarker/scripts/fetchCategories.php", {
+    const result = fetch(`${scriptsUrl}/fetchCategories.php`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -43,7 +43,7 @@ function setup() {
         }
         
         // Retrieve bookmarks
-        result2 = fetch("http://localhost/www/bookmarker/scripts/fetchBookmarks.php", {
+        result2 = fetch(`${scriptsUrl}/fetchBookmarks.php`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -131,7 +131,7 @@ function configureModalEvents() {
             let categoryID;
 
             // Save category to database
-            fetch("http://localhost/www/bookmarker/scripts/insertCategory.php", {
+            fetch(`${scriptsUrl}/insertCategory.php`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",

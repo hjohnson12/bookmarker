@@ -12,17 +12,16 @@
 
         $execStatement->closeCursor(); // cursor is thing that moves through the db
 
-        // Delete the corresponding bookmark entries
-        $deleteQuery2 = 'DELETE FROM bookmarks
-                            WHERE categoryName = :categoryName';
-        $execStatement2 = $db->prepare($deleteQuery2);
-        $execStatement2->bindValue(':categoryName', $name);
-        $execStatement2->execute();
-
-        $execStatement2->closeCursor(); // cursor is thing that moves through the db
-
         $count = $execStatement->rowCount();
         if ($count > 0) {
+            // Delete the corresponding bookmark entries
+            $deleteBookmarksQuery = 'DELETE FROM bookmarks
+            WHERE categoryName = :categoryName';
+            $execStatement = $db->prepare($deleteBookmarksQuery);
+            $execStatement->bindValue(':categoryName', $name);
+            $execStatement->execute();
+            $execStatement->closeCursor(); // cursor is thing that moves through the db
+
             echo "Deleted successfully!";
         }
         else {

@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS bookmarksdbdev;
-CREATE DATABASE bookmarksdbdev;
-USE bookmarksdbdev; -- MySQL Command
+DROP DATABASE IF EXISTS bookmarksdb;
+CREATE DATABASE bookmarksdb;
+USE bookmarksdb; -- MySQL Command
 
 -- Create TABLE
 CREATE TABLE categories (
@@ -25,6 +25,6 @@ INSERT INTO bookmarks VALUES
 (1, 'Default Category', 'bookmark', 'www.test.com');
 
 GRANT SELECT, INSERT, DELETE, UPDATE
-ON bookmarksdbdev.*
+ON bookmarksdb.*
 TO someuser@localhost
 IDENTIFIED BY 'pa55word';

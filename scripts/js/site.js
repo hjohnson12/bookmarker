@@ -1,6 +1,6 @@
 var bookmarks = [];
 let currentCategory = "";
-let scriptsUrl = 'http://localhost/www/bookmarker/scripts';
+let phpScriptsUrl = 'http://localhost/www/bookmarker/scripts/php';
 let bookmarkCategories = [];
 
 function test() {
@@ -17,7 +17,7 @@ function setup() {
     // Load categories from DB
     let parsedJson;
     let result2;
-    const result = fetch(`${scriptsUrl}/fetchCategories.php`, {
+    const result = fetch(`${phpScriptsUrl}/fetchCategories.php`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -43,7 +43,7 @@ function setup() {
         }
         
         // Retrieve bookmarks
-        result2 = fetch(`${scriptsUrl}/fetchBookmarks.php`, {
+        result2 = fetch(`${phpScriptsUrl}/fetchBookmarks.php`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -131,7 +131,7 @@ function configureModalEvents() {
             let categoryID;
 
             // Save category to database
-            fetch(`${scriptsUrl}/insertCategory.php`, {
+            fetch(`${phpScriptsUrl}/insertCategory.php`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
@@ -259,7 +259,7 @@ function saveBookmark(e) {
 
     // TESTTTT - Insert into DB
     // Delete category from db
-    const result = fetch(`${scriptsUrl}/insertBookmark.php`, {
+    const result = fetch(`${phpScriptsUrl}/insertBookmark.php`, {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
@@ -309,7 +309,7 @@ function addItemToCategories(categoryName, index) {
         var currentIndex = index;
 
         // Delete category from db & its corresponding bookmarks
-        fetch(`${scriptsUrl}/deleteCategory.php`, {
+        fetch(`${phpScriptsUrl}/deleteCategory.php`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
@@ -463,7 +463,7 @@ function deleteBookmark(bookmarkTitle, url) {
     var currentCategory = document.querySelector(".text").innerHTML;
 
     // Delete bookmark from db
-    const result = fetch(`${scriptsUrl}/deleteBookmark.php`, {
+    const result = fetch(`${phpScriptsUrl}/deleteBookmark.php`, {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",

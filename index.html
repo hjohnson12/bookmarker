@@ -79,9 +79,7 @@
                 </form>
                 <div id="bookmarkOpResult"></div>
                 <h2>Bookmarks</h2>
-                <form method="post" action="scripts/test-fetchCategories.php">
-                    <input type="submit" value="View categories">
-                </form>
+                
                 <div class="bookmarks">
                     <ul>
                         <!-- For testing purposes -->
@@ -119,6 +117,9 @@
                 <!-- Modal Body -->
                 <div class="modal-body">
                     <p>Add or remove categories</p>
+                    <form method="post" action="scripts/test-fetchCategories.php">
+                        <input type="submit" value="View categories">
+                    </form>
                     <form class="categoryForm">
                         <label for="category-name" class="category-name-label">New Category: </label>
                         <input name="category-name" id="category-name" maxlength="30" type="text" placeholder="Category name">

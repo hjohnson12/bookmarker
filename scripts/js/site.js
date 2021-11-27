@@ -406,6 +406,7 @@ function newBookmark2(bookmarkName, bookmarkUrl="placeholderurl") {
     var visitButton = document.createElement("button");
     visitButton.id = "visitBtn";
     visitButton.innerHTML = "Visit";
+    visitButton.addEventListener('click', () => visitBookmark(bookmarkUrl));
     var previewButton = document.createElement("button");
     previewButton.id = "previewBtn";
     previewButton.innerHTML = "Preview";
@@ -451,8 +452,8 @@ function newBookmark(bookmarkName) {
     return item;
 }
 
-function visitBookmark() {
-
+function visitBookmark(url) {
+    window.location = url;
 }
 
 function previewBookmark() {

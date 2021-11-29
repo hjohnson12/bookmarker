@@ -57,7 +57,7 @@
 }
 
 .category-header .category_header {
-    color: lightgrey;
+    color: #f0f2f5;
     margin: 5px 10px;
 }
 
@@ -225,15 +225,7 @@
 
 .main-section {
     position: relative;
-    background: #E4E9F7;
-    left: 260px;
-    width: calc(100% - 260px);
-    transition: all 0.5s ease;
-}
-
-.main-section2 {
-    position: relative;
-    background: #E4E9F7;
+    background: #f0f2f5;
     left: 260px;
     width: calc(100% - 260px);
     transition: all 0.5s ease;
@@ -305,6 +297,7 @@
 .bookmarks > ul {
     display: flex;
     flex-flow: row wrap;
+    align-items: flex-start; /* Differing item widths */
 }
 
 .bookmarks > div {
@@ -317,7 +310,8 @@
 
 .bookmarks li {
     list-style: none;
-    display: inline;
+    display: flex;
+    flex-direction: column;
     width: 245px;
     margin-right: 15px;
 }
@@ -339,6 +333,13 @@
     border: 1px solid red;
 }
 
+.bookmark-body {
+    margin: 4px;
+    display: flex;
+    flex-flow: row wrap;
+    flex: 1;
+}
+
 .bookmark-footer {
     display: flex;
     flex-flow: row;
@@ -351,9 +352,6 @@
     width: 75px;
 }
 
-.bookmark-body {
-    margin: 4px;
-}
 
 /* .bookmark-body span {
     display: block;

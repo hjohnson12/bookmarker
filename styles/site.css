@@ -359,6 +359,15 @@
     display: block;
 }
 
+.bookmark-body span:last-child {
+    display: block;
+    font-style: italic;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+    font-size: 14px;
+}
+
 .bookmarkForm {
     margin-bottom: 20px;
 }

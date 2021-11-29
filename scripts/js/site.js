@@ -256,6 +256,10 @@ function saveBookmark(e) {
         alert("Please fill out bookmark info");
         return;
     }
+    else if (!isValidURL(bookmarkUrl)) {
+        alert("Please enter a valid url format");
+        return;
+    }
 
     // TESTTTT - Insert into DB
     // Delete category from db
@@ -501,5 +505,12 @@ function deleteBookmark(bookmarkTitle, url) {
     })
     .catch(error => alert(error));
 }
+
+function isValidURL(url) {
+    // Regular expression literal
+    // Test against all possible matches with /g (global flag)
+    let pattern = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+    return pattern.test(url);
+};
 
 document.addEventListener("DOMContentLoaded", setup);

@@ -355,12 +355,21 @@
     margin: 4px;
 }
 
-.bookmark-body span {
+/* .bookmark-body span {
     display: block;
+} */
+
+.bookmark-body span:first-child {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    overflow-wrap: break-word;
+    /* text-overflow: ellipsis; */
 }
 
 .bookmark-body span:last-child {
     display: block;
+    margin-top: 4px;
     font-style: italic;
     text-overflow: ellipsis;
     overflow: hidden;

@@ -250,7 +250,6 @@ function saveBookmark(e) {
     let bookmarkUrl = document.getElementById("website-url").value;
     let category = document.querySelector(".text").innerHTML;
 
-
     // Validate user put in bookmark information
     if (bookmarkName === '' || bookmarkUrl === '') {
         alert("Please fill out bookmark info");
@@ -293,6 +292,10 @@ function saveBookmark(e) {
         var li = newBookmark2(bookmarkName, bookmarkUrl);
         var ul = document.querySelector("div.bookmarks > ul");
         ul.appendChild(li);
+
+        // Clear inputs
+        document.getElementById("website-name").value = "";
+        document.getElementById("website-url").value = "";
     });
 }
 

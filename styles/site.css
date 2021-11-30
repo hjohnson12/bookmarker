@@ -512,12 +512,13 @@
     background: #1d1b31;
   }
 
-  .bookmark-edit {
-  }
-
   .save-edit {
       padding: 4px;
   }
+
+  #bookmark-name, #bookmark-url {
+    padding: 4px;
+}
 
   .edit-input-field label {
       display: block;

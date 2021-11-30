@@ -179,7 +179,7 @@ function configureModalEvents() {
     }
 
     // When the user clicks on <span> (x), close the modal
-    const closeSpan = document.querySelector(".close-modal");
+    const closeSpan = document.querySelector("#categoriesModal .close-modal");
     closeSpan.onclick = function () {
         modal.style.display = "none";
         sidebar.classList.toggle("close");

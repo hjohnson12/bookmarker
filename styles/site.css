@@ -318,7 +318,7 @@
 
 .bookmark {
     margin: 5px;
-    border: 1px solid green;
+    border: 1px solid #bdb0b0;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 4px;
 }
@@ -496,11 +496,6 @@
       padding: 4px;
       border: 1px solid black;
       border-radius: 4px;
-      background-color: red;
-  }
-
-  .delete-category-button:hover {
-      background-color: rgb(194, 39, 39);
   }
 
   .save-categories {

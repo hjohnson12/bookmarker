@@ -138,6 +138,34 @@
                 </div>
             </div>
         </div>
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <span class="close-modal">&times;</span>
+                    <h2>Edit Bookmark</h2>
+                    <hr>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <div class="bookmark-edit">
+                        <div class="edit-input-field">
+                            <label for="bookmark-name">Bookmark Name:</label>
+                            <input name="bookmark-name" id="bookmark-name" type="text" placeholder="Name">
+                        </div>
+                        <div class="edit-input-field">
+                            <label for="bookmark-url">URL:</label>
+                            <input name="bookmark-url" id="bookmark-url" type="text" placeholder="https://example.com">
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <hr>
+                    <button type="button" class="save-edit" id="saveBookmarkBtn">Save</button>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer>

@@ -214,7 +214,8 @@ function addClickListenerToNavItems() {
             for (var j = 0; j < category.bookmarks.length; j++) {
                 var name = category.bookmarks[j].name;
                 var url = category.bookmarks[j].url;
-                var li = newBookmark2(name, url);
+                var index = j;
+                var li = newBookmark2(name, url, index);
                 ul.appendChild(li);
             }
 
@@ -388,7 +389,7 @@ function closeSidebarOnWidthChange(x) {
     }
 }
 
-function newBookmark2(bookmarkName, bookmarkUrl="placeholderurl") {
+function newBookmark2(bookmarkName, bookmarkUrl="placeholderurl", index) {
     var li = document.createElement("li");
     li.classList.add("bookmark");
 
@@ -414,16 +415,17 @@ function newBookmark2(bookmarkName, bookmarkUrl="placeholderurl") {
     visitButton.id = "visitBtn";
     visitButton.innerHTML = "Visit";
     visitButton.addEventListener('click', () => visitBookmark(bookmarkUrl));
-    var previewButton = document.createElement("button");
-    previewButton.id = "previewBtn";
-    previewButton.innerHTML = "Preview";
+    var editButton = document.createElement("button");
+    editButton.id = "editBtn";
+    editButton.innerHTML = "Edit";
+    editButton.addEventListener('click', () => editBookmark(bookmarkTitle.innerHTML, bookmarkUrl, index));
     var deleteButton = document.createElement("button");
     deleteButton.id = "deleteBtn";
     deleteButton.innerHTML = "Delete";
     deleteButton.addEventListener('click', () => deleteBookmark(bookmarkTitle.innerHTML, bookmarkUrl));
 
     footer.appendChild(visitButton);
-    footer.appendChild(previewButton);
+    footer.appendChild(editButton);
     footer.appendChild(deleteButton);
 
     // Append header/body/footer to bookmark item
@@ -460,10 +462,35 @@ function newBookmark(bookmarkName) {
 }
 
 function visitBookmark(url) {
-    window.location = url;
+    window.open(url, "_blank");
+    // window.location = url;
 }
 
-function previewBookmark() {
+function editBookmark(bookmarkTitle, url, index) {
+    var modal = document.getElementById("editModal");
+    modal.style.display = "block";
+
+    console.log("Index of editing item: " + index);
+
+    let nameInput = document.getElementById("bookmark-name");
+    let urlInput = document.getElementById("bookmark-url");
+
+    nameInput.value= bookmarkTitle;
+    urlInput.value = url;
+
+    const closeSpan = document.querySelector("#editModal .close-modal");
+    closeSpan.onclick = function () {
+        modal.style.display = "none";
+        // sidebar.classList.toggle("close");
+    }
+  
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            // sidebar.classList.toggle("close");
+        }
+    }
 }
 
 function deleteBookmark(bookmarkTitle, url) {

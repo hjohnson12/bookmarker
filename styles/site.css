@@ -383,6 +383,11 @@
     display: inline;
 }
 
+.edit-input-field {
+    display: block;
+    margin: 8px 4px;
+}
+
 .save-bookmark-btn {
     padding: 5px;
 }
@@ -505,4 +510,19 @@
 
   .active {
     background: #1d1b31;
+  }
+
+  .bookmark-edit {
+  }
+
+  .save-edit {
+      padding: 4px;
+  }
+
+  .edit-input-field label {
+      display: block;
+  }
+
+  .edit-input-field input {
+      width: 100%;
   }

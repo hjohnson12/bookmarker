@@ -430,7 +430,6 @@
     animation-duration: 0.4s
 }
 
-
 /* Add Animation */
 @-webkit-keyframes animatetop {
     from {top:-300px; opacity:0} 
@@ -441,7 +440,6 @@
     from {top:-300px; opacity:0}
     to {top:0; opacity:1}
 }
-
   
   /* The Close Button */
   .close-modal {
@@ -526,4 +524,8 @@
 
   .edit-input-field input {
       width: 100%;
+  }
+
+  #bookmarkOpResult {
+      margin-bottom: 4px;
   }

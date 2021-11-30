@@ -472,15 +472,23 @@ function editBookmark(bookmarkTitle, url, index) {
 
     console.log("Index of editing item: " + index);
 
+    let originalName = bookmarkTitle; 
+    let originalUrl = url;
+    let categoryName = document.querySelector(".text").innerHTML;
+
     let nameInput = document.getElementById("bookmark-name");
     let urlInput = document.getElementById("bookmark-url");
+    nameInput.value= originalName;
+    urlInput.value = originalUrl;
 
-    nameInput.value= bookmarkTitle;
-    urlInput.value = url;
-
+    // Create event for closing modal on X
     const closeSpan = document.querySelector("#editModal .close-modal");
     closeSpan.onclick = function () {
         modal.style.display = "none";
+
+        // Helps avoid multiple listeners being set if modal closed
+        // by clicking the X
+        updateBookmarkBtn.removeEventListener('click', updateBookmark)
         // sidebar.classList.toggle("close");
     }
   
@@ -488,8 +496,60 @@ function editBookmark(bookmarkTitle, url, index) {
     window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
+
+            // Helps avoid multiple listeners being set if modal closed
+            // by clicking outside of the modal
+            updateBookmarkBtn.removeEventListener('click', updateBookmark)
             // sidebar.classList.toggle("close");
         }
+    }
+
+    // Create event for updating bookmark
+    const updateBookmarkBtn = document.querySelector("#updateBookmarkBtn");
+    updateBookmarkBtn.addEventListener('click', updateBookmark);
+
+    // Updates bookmark in database and then its in memory array
+    // and the DOM
+    function updateBookmark() {
+        let bookmarkIndex = index;
+        let newName = nameInput.value;
+        let newUrl = urlInput.value;
+
+        if (!isValidURL(newUrl)) {
+            alert("Please enter a valid url format");
+            return;
+        }
+
+        // Prepare parameters to send in request
+        let params = `categoryName=${categoryName}&oldName=${originalName}&oldUrl=${originalUrl}&bookmarkName=${newName}&bookmarkUrl=${newUrl}`;
+
+        // Send request to update bookmark
+        fetch(`${phpScriptsUrl}/updateBookmark.php`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            },
+            body: params,
+        })
+        .then((response) => response.text())
+        .then((res) => {
+            console.log(res);
+            document.getElementById("bookmarkOpResult").innerHTML = res;
+
+            // Update bookmark in array
+            var categoryIndex = bookmarkCategories.findIndex(b => b.category === categoryName);
+            let bookmark = bookmarkCategories[categoryIndex].bookmarks[index];
+            bookmark.name = newName;
+            bookmark.url = newUrl;
+            
+            // Update list item in DOM
+            let list = document.querySelector(".bookmarks > ul");
+            let newLi = newBookmark2(bookmark.name, bookmark.url, bookmarkIndex);
+            list.replaceChild(newLi, list.childNodes[index]);
+            
+            // Re-hide modal on completion
+            modal.style.display = "none";
+        });
     }
 }
 

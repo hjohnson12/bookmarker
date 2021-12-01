@@ -162,36 +162,44 @@ function configureModalEvents() {
 
     const saveCategoriesBtn = document.getElementById("saveCategoriesButton");
     saveCategoriesBtn.onclick = function () {
+        // Save changes and update DOM
+        saveCategoryChanges();
         sidebar.classList.toggle("close");
-
-        // Save list of categories to db, verify data first
-        var navLinks = document.querySelector('#nav-links');
-        navLinks.innerHTML = '';
-
-        // Re-create navigation items
-        for(var i = 0; i < bookmarkCategories.length; i++) {
-            addNavItem(bookmarkCategories[i].category);
-        }
-
-        addClickListenerToNavItems();
-        selectDefaultCategory();
         modal.style.display = "none";
     }
 
     // When the user clicks on <span> (x), close the modal
     const closeSpan = document.querySelector("#categoriesModal .close-modal");
     closeSpan.onclick = function () {
-        modal.style.display = "none";
+        // Save changes and update DOM
+        saveCategoryChanges();
         sidebar.classList.toggle("close");
+        modal.style.display = "none";
     }
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
         if (event.target == modal) {
-            modal.style.display = "none";
+            // Save changes and update DOM
+            saveCategoryChanges();
             sidebar.classList.toggle("close");
+            modal.style.display = "none";
         }
     }
+}
+
+function saveCategoryChanges() {
+    // Save list of categories to db, verify data first
+    var navLinks = document.querySelector('#nav-links');
+    navLinks.innerHTML = '';
+
+    // Re-create navigation items
+    for (var i = 0; i < bookmarkCategories.length; i++) {
+        addNavItem(bookmarkCategories[i].category);
+    }
+
+    addClickListenerToNavItems();
+    selectDefaultCategory();
 }
 
 function addClickListenerToNavItems() {
@@ -307,7 +315,12 @@ function addItemToCategories(categoryName, index) {
     // Configure li element
     var liElem = document.createElement("li");
     liElem.classList.add("category-item");
-    liElem.innerHTML += category;
+    // liElem.innerHTML += category;
+
+    var textSpan = document.createElement("span");
+    var spanText = document.createTextNode(categoryName);
+    textSpan.appendChild(spanText);
+    liElem.appendChild(textSpan);
 
     // Configure delete button
     var deleteBtn = document.createElement("button");
@@ -341,10 +354,18 @@ function addItemToCategories(categoryName, index) {
     // Configure rename button
     var renameBtn = document.createElement("button");
     renameBtn.innerHTML = "Rename";
+    renameBtn.classList.add("rename-category-button");
+
+    // Create div to hold buttons
+    let div = document.createElement("div");
+    div.className = "category-item-buttons";
+    div.appendChild(deleteBtn);
+    div.appendChild(renameBtn);
 
     // Append children
-    liElem.appendChild(deleteBtn);
-    liElem.appendChild(renameBtn);
+    // liElem.appendChild(deleteBtn);
+    // liElem.appendChild(renameBtn);
+    liElem.appendChild(div);
     ul.appendChild(liElem);
 }
 

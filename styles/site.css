@@ -416,13 +416,13 @@
   
   /* Modal Content/Box */
   .modal-content {
-      /* position:relative; */
-      border-radius: 8px;
+    /* position:relative; */
+    border-radius: 8px;
     background-color: #fefefe;
     margin: 10% auto; /* 10% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 30%; /* Could be more or less, depending on screen size */
+    width: 20%; /* Could be more or less, depending on screen size */
     min-width: 200px; /* Prevent from getting too small */
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
@@ -464,7 +464,7 @@
       margin: 5px 0px;
       max-height: 300px;
       overflow-y: auto;
-      border: 1px solid black;
+      border: 1px solid lightgrey;
       border-radius: 4px;
       text-decoration: none;
       list-style: none;
@@ -477,8 +477,23 @@
   .category-item {
       border: 1px solid #bdb0b0;
       border-radius: 4px;
-      padding-left: 10px;
+      /* padding-left: 10px; */
       box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+
+  .category-item span {
+      display: flex;
+      justify-content: center;
+      margin: 4px;
+  }
+  
+  .category-item-buttons {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+  .category-item-buttons button {
+      flex: 40%;
   }
 
   #category-name {
@@ -495,10 +510,13 @@
   }
 
   .delete-category-button {
-      margin: 4px;
+      margin: 8px;
       padding: 4px;
-      border: 1px solid black;
-      border-radius: 4px;
+  }
+
+  .rename-category-button {
+      margin: 8px;
+      padding: 4px;
   }
 
   .save-categories {

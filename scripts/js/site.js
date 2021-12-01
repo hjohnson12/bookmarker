@@ -211,7 +211,7 @@ function addClickListenerToNavItems() {
                 var name = category.bookmarks[j].name;
                 var url = category.bookmarks[j].url;
                 var index = j;
-                var li = newBookmark2(name, url, index);
+                var li = createBookmarkItem(name, url, index);
                 ul.appendChild(li);
             }
 
@@ -286,7 +286,7 @@ function saveBookmark(e) {
         });
 
         // Create and add item to DOM
-        var li = newBookmark2(bookmarkName, bookmarkUrl);
+        var li = createBookmarkItem(bookmarkName, bookmarkUrl);
         var ul = document.querySelector("div.bookmarks > ul");
         ul.appendChild(li);
 
@@ -398,7 +398,7 @@ function closeSidebarOnWidthChange(x) {
     }
 }
 
-function newBookmark2(bookmarkName, bookmarkUrl="placeholderurl", index) {
+function createBookmarkItem(bookmarkName, bookmarkUrl="placeholderurl", index) {
     var li = document.createElement("li");
     li.classList.add("bookmark");
 
@@ -553,7 +553,7 @@ function editBookmark(bookmarkTitle, url, index) {
             
             // Update list item in DOM
             let list = document.querySelector(".bookmarks > ul");
-            let newLi = newBookmark2(bookmark.name, bookmark.url, bookmarkIndex);
+            let newLi = createBookmarkItem(bookmark.name, bookmark.url, bookmarkIndex);
             list.replaceChild(newLi, list.childNodes[index]);
             
             // Re-hide modal on completion

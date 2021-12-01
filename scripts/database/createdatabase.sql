@@ -26,5 +26,5 @@ INSERT INTO bookmarks VALUES
 
 GRANT SELECT, INSERT, DELETE, UPDATE
 ON bookmarksdb.*
-TO someuser@localhost
+TO user@localhost
 IDENTIFIED BY 'pa55word';

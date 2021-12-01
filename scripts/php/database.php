@@ -1,6 +1,6 @@
 <?php
-    $dataSourceName = 'mysql:host=localhost;dbname=bookmarksDb';
-    $username = 'admin';
+    $dataSourceName = 'mysql:host=localhost;dbname=bookmarksdb';
+    $username = 'user';
     $password = 'pa55word';
 
     try {

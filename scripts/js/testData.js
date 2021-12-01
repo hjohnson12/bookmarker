@@ -88,3 +88,15 @@ const bookmarkCategoriesTest = [
         ]
     }
 ];
+
+function test() {
+    bookmarkCategoriesTest.forEach(bookmarkCategory => {
+        console.log("Category: " + bookmarkCategory.category);
+        bookmarkCategory.bookmarks.forEach(bookmark => {
+            var outputString = `Bookmark: ${bookmark.name}, Url: ${bookmark.url}`;
+            console.log(outputString);
+        });
+    });
+}
+
+test();

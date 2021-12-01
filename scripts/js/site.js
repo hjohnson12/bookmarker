@@ -3,16 +3,6 @@ let currentCategory = "";
 let phpScriptsUrl = 'http://localhost/www/bookmarker/scripts/php';
 let bookmarkCategories = [];
 
-function test() {
-    bookmarkCategoriesTest.forEach(bookmarkCategory => {
-        console.log("Category: " + bookmarkCategory.category);
-        bookmarkCategory.bookmarks.forEach(bookmark => {
-            var outputString = `Bookmark: ${bookmark.name}, Url: ${bookmark.url}`;
-            console.log(outputString);
-        });
-    });
-}
-
 function setup() {
     // Load categories from DB
     let parsedJson;
@@ -90,8 +80,6 @@ function setup() {
             var x = window.matchMedia("(max-width: 850px)");
             closeSidebarOnWidthChange(x) // Call listener function at run time
             x.addEventListener("change", closeSidebarOnWidthChange); // Attach listener function on state changes
-
-            test();
         });
     });
 }

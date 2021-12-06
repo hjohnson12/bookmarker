@@ -322,7 +322,7 @@
 }
 
 .bookmark {
-    margin: 5px;
+    /* margin: 5px; */
     border: 1px solid #bdb0b0;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 4px;

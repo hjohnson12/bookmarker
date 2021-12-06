@@ -207,12 +207,20 @@ function addClickListenerToNavItems() {
             var indexOfCategory = bookmarkCategories.findIndex(b => b.category === this.innerHTML);
             var category = bookmarkCategories[indexOfCategory];
             
-            for (var j = 0; j < category.bookmarks.length; j++) {
-                var name = category.bookmarks[j].name;
-                var url = category.bookmarks[j].url;
-                var index = j;
-                var li = createBookmarkItem(name, url, index);
-                ul.appendChild(li);
+            if (category.bookmarks.length !== 0) {
+                // Load bookmarks into ul element
+                for (var j = 0; j < category.bookmarks.length; j++) {
+                    var name = category.bookmarks[j].name;
+                    var url = category.bookmarks[j].url;
+                    var index = j;
+                    var li = createBookmarkItem(name, url, index);
+                    ul.appendChild(li);
+                }
+            }
+            else {
+                // Load empty bookmarks message
+                let emptyMsg = createEmptyBookmarksMessage();
+                ul.appendChild(emptyMsg);
             }
 
             div.appendChild(ul);
@@ -229,6 +237,14 @@ function addClickListenerToNavItems() {
             console.log(this.innerHTML + " Index = " + indexOfCategory);
         }
     }
+}
+
+function createEmptyBookmarksMessage() {
+    let emptyMsg = document.createElement('span');
+    // emptyText.classList.add("empty-bookmarks-msg");
+    let text = document.createTextNode("No bookmarks available");
+    emptyMsg.appendChild(text);
+    return emptyMsg;
 }
 
 function selectDefaultCategory() {
@@ -288,6 +304,13 @@ function saveBookmark(e) {
         // Create and add item to DOM
         var li = createBookmarkItem(bookmarkName, bookmarkUrl);
         var ul = document.querySelector("div.bookmarks > ul");
+
+        // Remove empty bookmarks message if there was no elements
+        // previously
+        if (ul.firstChild.innerHTML === "No bookmarks available") {
+            ul.firstChild.remove();
+        }
+
         ul.appendChild(li);
 
         // Clear inputs
@@ -600,6 +623,12 @@ function deleteBookmark(bookmarkTitle, url) {
         
             let ul = document.querySelector("div.bookmarks > ul");
             ul.removeChild(elementToDelete);
+
+            // Add empty message if no more bookmarks exist
+            if (ul.childElementCount === 0) {
+                let msg = createEmptyBookmarksMessage();
+                ul.appendChild(msg);
+            }
         }
     })
     .catch(error => alert(error));

@@ -367,6 +367,7 @@
     overflow: hidden;
     width: 100%;
     overflow-wrap: break-word;
+    font-weight: bold;
     /* text-overflow: ellipsis; */
 }
 

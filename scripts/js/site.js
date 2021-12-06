@@ -93,6 +93,9 @@ function configureModalEvents() {
     editCategoriesBtn.onclick = function () {
         var categoriesCopy2 = bookmarkCategories;
 
+        // Reset categories op result div
+        document.getElementById("categoryOpResult").innerHTML = '';
+
         // Close sidebar
         sidebar.classList.toggle("close");
 
@@ -130,7 +133,7 @@ function configureModalEvents() {
             .then((res) => {
                 categoryID = res;
 
-                document.getElementById("testResult").innerHTML = categoryID;
+                document.getElementById("categoryOpResult").innerHTML = categoryID;
 
                 alert(categoryID);
 
@@ -354,7 +357,7 @@ function addItemToCategories(categoryName, index) {
             })
             .then((response) => response.text())
             .then((res) => {
-                document.getElementById("testResult").innerHTML = res;
+                document.getElementById("categoryOpResult").innerHTML = res;
 
                 if (res === "Deleted successfully!") {
                     // Delete from in-memory array and update UI

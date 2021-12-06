@@ -290,7 +290,7 @@
     border-radius: 4px;
     overflow-y: auto;
     /* width: 100%; */
-    margin: 20px 0;
+    margin: 10px 0 20px 0;
     height: 75vh;
 }
 
@@ -545,5 +545,5 @@
   }
 
   #bookmarkOpResult {
-      margin-bottom: 4px;
+      margin-bottom: 8px;
   }

@@ -196,7 +196,11 @@ function addClickListenerToNavItems() {
     var categorySpan = document.querySelector(".text");
     for (var i = 0; i < navItems.length; i++) {
         navItems[i].onclick = function () {
+            // Set the category text 
             categorySpan.innerHTML = this.innerHTML;
+
+            // Clear bookmark ops result from previous nav location
+            document.getElementById("bookmarkOpResult").innerHTML = '';
 
             // Add array items to the bookmarks element on screen
             var div = document.querySelector(".bookmarks");

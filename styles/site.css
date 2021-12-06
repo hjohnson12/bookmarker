@@ -6,6 +6,8 @@
     font-family: 'Poppins', sans-serif;
 }
 
+/* Sidebar Styles */
+
 .sidebar {
     position: fixed;
     top: 0;
@@ -223,6 +225,8 @@
     transform: translateY(-50%);
 }
 
+/* Main Section Styles */
+
 .main-section {
     position: relative;
     background: #f0f2f5;
@@ -265,6 +269,7 @@
 }
 
 /* Bookmarks Stylng */
+
 .bookmark-container {
     margin: 0 15px;
     flex: 1;

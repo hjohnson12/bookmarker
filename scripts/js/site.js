@@ -309,8 +309,10 @@ function saveBookmark(e) {
             url: bookmarkUrl
         });
 
+        let newIndex = bookmarkCategories[categoryIndex].bookmarks.length - 1;
+
         // Create and add item to DOM
-        var li = createBookmarkItem(bookmarkName, bookmarkUrl);
+        var li = createBookmarkItem(bookmarkName, bookmarkUrl, newIndex);
         var ul = document.querySelector("div.bookmarks > ul");
 
         // Remove empty bookmarks message if there was no elements

@@ -150,6 +150,9 @@ function configureModalEvents() {
                 }
             });
         }
+        else {
+            alert("Please fill in a category name to add");
+        }
     });
 
     const saveCategoriesBtn = document.getElementById("saveCategoriesButton");

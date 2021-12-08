@@ -607,3 +607,7 @@ button:before {
 button:-webkit-details-marker {
   display: none;
 }
+
+#categoryOpResult {
+    margin-bottom: 4px;
+}

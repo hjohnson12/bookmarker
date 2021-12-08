@@ -93,8 +93,9 @@ function configureModalEvents() {
     editCategoriesBtn.onclick = function () {
         var categoriesCopy2 = bookmarkCategories;
 
-        // Reset categories op result div
+        // Reset categories op result div and input
         document.getElementById("categoryOpResult").innerHTML = '';
+        document.getElementById("category-name").value = '';
 
         // Close sidebar
         sidebar.classList.toggle("close");

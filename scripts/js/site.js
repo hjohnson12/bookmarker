@@ -283,6 +283,10 @@ function saveBookmark(e) {
         alert("Please enter a valid url format");
         return;
     }
+    else if (category === '' || category === null) {
+        alert("Please create and select a category to add a bookmark to");
+        return;
+    }
 
     // TESTTTT - Insert into DB
     // Delete category from db

@@ -568,6 +568,10 @@ function editBookmark(bookmarkTitle, url, index) {
             alert("Please enter a valid url format");
             return;
         }
+        else if (newName === originalName && newUrl === originalUrl) {
+            // Avoid extra database call if no inputs have been changed
+            return;
+        }
 
         // Prepare parameters to send in request
         let params = `categoryName=${categoryName}&oldName=${originalName}&oldUrl=${originalUrl}&bookmarkName=${newName}&bookmarkUrl=${newUrl}`;

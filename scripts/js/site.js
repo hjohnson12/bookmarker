@@ -148,6 +148,9 @@ function configureModalEvents() {
                     // var ul = document.querySelector("#categoryItems");
                     addItemToCategories(categoryName);
                 }
+
+                // Reset input field to empty
+                document.querySelector("#category-name").value = '';
             });
         }
         else {

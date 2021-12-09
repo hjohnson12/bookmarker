@@ -578,6 +578,7 @@ function editBookmark(bookmarkTitle, url, index) {
 
         // Prepare parameters to send in request
         let params = `categoryName=${categoryName}&oldName=${originalName}&oldUrl=${originalUrl}&bookmarkName=${newName}&bookmarkUrl=${newUrl}`;
+        console.log(params);
 
         // Send request to update bookmark
         fetch(`${phpScriptsUrl}/updateBookmark.php`, {
@@ -603,8 +604,9 @@ function editBookmark(bookmarkTitle, url, index) {
             let newLi = createBookmarkItem(bookmark.name, bookmark.url, bookmarkIndex);
             list.replaceChild(newLi, list.childNodes[index]);
             
-            // Re-hide modal on completion
+            // Re-hide modal on completion & remove event listener
             modal.style.display = "none";
+            updateBookmarkBtn.removeEventListener('click', updateBookmark);
         });
     }
 }

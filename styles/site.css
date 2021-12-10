@@ -406,6 +406,7 @@
     left: 0;
     top: 0;
     border-radius: 4px;
+    z-index: 101; /* Placed overtop of everything including sidebar */
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     /* overflow: auto; */

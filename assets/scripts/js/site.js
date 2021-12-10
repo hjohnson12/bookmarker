@@ -1,6 +1,6 @@
 var bookmarks = [];
 let currentCategory = "";
-let phpScriptsUrl = 'http://localhost/www/bookmarker/scripts/php';
+let phpScriptsUrl = 'http://localhost/www/bookmarker/assets/scripts/php';
 let bookmarkCategories = [];
 
 function setup() {

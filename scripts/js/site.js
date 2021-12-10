@@ -273,8 +273,8 @@ function selectDefaultCategory() {
 function saveBookmark(e) {
     e.preventDefault(); // Prevent page from reloading
 
-    let bookmarkName = document.getElementById("website-name").value;
-    let bookmarkUrl = document.getElementById("website-url").value;
+    let bookmarkName = document.getElementById("bookmark-name").value;
+    let bookmarkUrl = document.getElementById("bookmark-url").value;
     let category = document.querySelector(".text").innerHTML;
 
     // Validate user put in bookmark information
@@ -334,8 +334,8 @@ function saveBookmark(e) {
         ul.appendChild(li);
 
         // Clear inputs
-        document.getElementById("website-name").value = "";
-        document.getElementById("website-url").value = "";
+        document.getElementById("bookmark-name").value = "";
+        document.getElementById("bookmark-url").value = "";
     });
 }
 
@@ -528,8 +528,8 @@ function editBookmark(bookmarkTitle, url, index) {
     let originalUrl = url;
     let categoryName = document.querySelector(".text").innerHTML;
 
-    let nameInput = document.getElementById("bookmark-name");
-    let urlInput = document.getElementById("bookmark-url");
+    let nameInput = document.getElementById("bookmark-name-edit");
+    let urlInput = document.getElementById("bookmark-url-edit");
     nameInput.value= originalName;
     urlInput.value = originalUrl;
 

@@ -10,7 +10,6 @@
 </head>
 
 <body>
-    <!-- Main Element -->
     <main>
         <!-- Sidebar Panel -->
         <div class="sidebar">
@@ -56,6 +55,7 @@
                 </li> -->
             </ul>
         </div>
+        <!-- End Sidebar -->
 
         <!-- Main Content -->
         <section class="main-section">
@@ -68,12 +68,12 @@
                 <form class="bookmark-form" onsubmit="saveBookmark(event)">
                     <h2>Add Bookmark</h2>
                     <div class="input-field">
-                        <label for="website-name">Bookmark Name:</label>
-                        <input name="website-name" id="website-name" type="text" placeholder="Name">
+                        <label for="bookmark-name">Name:</label>
+                        <input name="bookmark-name" id="bookmark-name" type="text" placeholder="Name">
                     </div>
                     <div class="input-field">
-                        <label for="website-url">URL:</label>
-                        <input name="website-url" id="website-url" type="text" placeholder="https://example.com">
+                        <label for="bookmark-url">URL:</label>
+                        <input name="bookmark-url" id="bookmark-url" type="text" placeholder="https://example.com">
                     </div>
                     <button class="save-bookmark-btn">Save Bookmark</button>
                 </form>
@@ -105,6 +105,7 @@
               
             </div>
         </section>
+        <!-- End Main Content -->
 
         <!-- Categories Modal -->
         <div id="categoriesModal" class="modal">
@@ -139,7 +140,8 @@
                     <button type="button" class="save-categories" id="saveCategoriesButton">Close</button>
                 </div>
             </div>
-        </div> <!-- End Categories Modal -->
+        </div> 
+        <!-- End Categories Modal -->
 
         <!-- Edit Bookmark Modal -->
         <div id="editModal" class="modal">
@@ -154,12 +156,12 @@
                 <div class="modal-body">
                     <div class="bookmark-edit">
                         <div class="edit-input-field">
-                            <label for="bookmark-name">Bookmark Name:</label>
-                            <input name="bookmark-name" id="bookmark-name" type="text" placeholder="Name">
+                            <label for="bookmark-name-edit">Bookmark Name:</label>
+                            <input name="bookmark-name-edit" id="bookmark-name-edit" type="text" placeholder="Name">
                         </div>
                         <div class="edit-input-field">
-                            <label for="bookmark-url">URL:</label>
-                            <input name="bookmark-url" id="bookmark-url" type="text" placeholder="https://example.com">
+                            <label for="bookmark-url-edit">URL:</label>
+                            <input name="bookmark-url-edit" id="bookmark-url-edit" type="text" placeholder="https://example.com">
                         </div>
                     </div>
                 </div>
@@ -169,7 +171,8 @@
                     <button type="button" class="save-edit" id="updateBookmarkBtn">Save</button>
                 </div>
             </div>
-        </div> <!-- End Edit Bookmark Modal -->
+        </div> 
+        <!-- End Edit Bookmark Modal -->
     </main>
 
     <!-- Main javascript file -->

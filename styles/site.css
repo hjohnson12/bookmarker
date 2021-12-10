@@ -286,7 +286,7 @@
     margin-bottom: 15px;
 }
 
-#website-name, #website-url {
+#bookmark-name, #bookmark-url {
     padding: 4px;
 }
 
@@ -540,7 +540,7 @@
       padding: 4px;
   }
 
-  #bookmark-name, #bookmark-url {
+  #bookmark-name-edit, #bookmark-url-edit {
     padding: 4px;
 }
 

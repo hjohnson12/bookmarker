@@ -1,5 +1,5 @@
 # bookmarker
-Bookmark website as a final project for my CIS435 Web Tech course during the Fall 2021 semester (currently finishing) 
+Bookmark website as a final project for my CIS435 Web Tech course during the Fall 2021 semester (currently finishing), and allows adding a bookmark with a name and URL.
 
 Utilizes HTMl, CSS, Javascript, PHP, and MySQL/MariaDB using phpMyAdmin with XAMPP
 
@@ -15,3 +15,10 @@ Utilizes HTMl, CSS, Javascript, PHP, and MySQL/MariaDB using phpMyAdmin with XAM
 8) In a browser, navigate to localhost/{foldername}/bookmarker
 
 If successful, it should load a couple default categories and show no errors in the console output within Inspect Element
+
+# Screenshots
+A few screenshots of the current state of the project
+
+![Image of Program](images/screenshots/screenshot1.png)
+![Image of Program](images/screenshots/screenshot2.png)
+![Image of Program](images/screenshots/screenshot3.png)

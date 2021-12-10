@@ -19,6 +19,6 @@ If successful, it should load a couple default categories and show no errors in 
 # Screenshots
 A few screenshots of the current state of the project
 
-![Image of Program](images/screenshots/screenshot1.png)
-![Image of Program](images/screenshots/screenshot2.png)
-![Image of Program](images/screenshots/screenshot3.png)
+![Image of Program](assets/images/screenshots/screenshot1.png)
+![Image of Program](assets/images/screenshots/screenshot2.png)
+![Image of Program](assets/images/screenshots/screenshot3.png)

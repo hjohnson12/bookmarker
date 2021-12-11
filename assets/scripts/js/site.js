@@ -3,85 +3,62 @@ let currentCategory = "";
 let phpScriptsUrl = 'http://localhost/www/bookmarker/assets/scripts/php';
 let bookmarkCategories = [];
 
-function setup() {
-    // Load categories from DB
-    let parsedJson;
-    let result2;
-    const result = fetch(`${phpScriptsUrl}/fetchCategories.php`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-            .then((response) => response.text())
-            .then((res) => {
-                console.log(JSON.parse(res));
-
-                // Parse json
-                parsedJson = JSON.parse(res);
-            });
-
-    // Continue setup of page
-    result.then(r => {
-
-        // Add parsed items to bookmark categories array
-        for (var i = 0; i < parsedJson.length; i++) {
-            bookmarkCategories.push({
-                category: parsedJson[i].categoryName, 
-                bookmarks: [] 
-            });
+async function setup() {
+    // Retrieve categories from DB
+    const categories = await fetch(`${phpScriptsUrl}/fetchCategories.php`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
         }
-        
-        // Retrieve bookmarks
-        result2 = fetch(`${phpScriptsUrl}/fetchBookmarks.php`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-            .then((response) => response.text())
-            .then((res) => {
-                console.log(JSON.parse(res));
+    }).then(response => response.json());
 
-                // Parse json
-                parsedJson = JSON.parse(res);
-            });
-
-        result2.then(r => {
-
-            // Load bookmarks into their respective categories
-            for (var i = 0; i < parsedJson.length; i++) {
-                var indexOfCategory = bookmarkCategories.findIndex(b => b.category === parsedJson[i].categoryName);
-                var category = bookmarkCategories[indexOfCategory];
-                category.bookmarks.push({
-                    name: parsedJson[i].bookmarkName,
-                    url: parsedJson[i].bookmarkUrl
-                });
-            }
-
-            // Add categories to nav items upon load
-            for (var i = 0; i < bookmarkCategories.length; i++) {
-                addNavItem(bookmarkCategories[i].category);
-            }
-
-            addClickListenerToNavItems();
-            selectDefaultCategory();
-
-            // Set sidebar collapse button click
-            let sidebar = document.querySelector(".sidebar");
-            let sidebarBtn = document.querySelector(".bx-menu");
-            sidebarBtn.addEventListener("click", () => {
-                sidebar.classList.toggle("close");
-            });
-
-            configureModalEvents();
-
-            // Set sidebar to close when small width
-            var x = window.matchMedia("(max-width: 850px)");
-            closeSidebarOnWidthChange(x) // Call listener function at run time
-            x.addEventListener("change", closeSidebarOnWidthChange); // Attach listener function on state changes
+    // Add categories to bookmark categories array
+    for (var i = 0; i < categories.length; i++) {
+        bookmarkCategories.push({
+            category: categories[i].categoryName, 
+            bookmarks: [] 
         });
+    }
+
+    // Retrieve bookmarks from DB
+    const bookmarks = await fetch(`${phpScriptsUrl}/fetchBookmarks.php`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }).then(response => response.json());
+
+    // Add bookmarks into their respective categories
+    for (var i = 0; i < bookmarks.length; i++) {
+        var indexOfCategory = bookmarkCategories.findIndex(b => b.category === bookmarks[i].categoryName);
+        var category = bookmarkCategories[indexOfCategory];
+        category.bookmarks.push({
+            name: bookmarks[i].bookmarkName,
+            url: bookmarks[i].bookmarkUrl
+        });
+    }
+
+    // Add categories to nav items upon load
+    for (var i = 0; i < bookmarkCategories.length; i++) {
+        addNavItem(bookmarkCategories[i].category);
+    }
+
+    addClickListenerToNavItems();
+    selectDefaultCategory();
+
+    // Set sidebar collapse button click
+    let sidebar = document.querySelector(".sidebar");
+    let sidebarBtn = document.querySelector(".bx-menu");
+    sidebarBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("close");
     });
+
+    configureModalEvents();
+
+    // Set sidebar to close when small width
+    var x = window.matchMedia("(max-width: 850px)");
+    closeSidebarOnWidthChange(x) // Call listener function at run time
+    x.addEventListener("change", closeSidebarOnWidthChange); // Attach listener function on state changes
 }
 
 function configureModalEvents() {

@@ -93,42 +93,36 @@ function configureModalEvents() {
     }
 
     const addCategoryBtn = document.querySelector("#addCategoryBtn");
-    addCategoryBtn.addEventListener('click', () => {
+    addCategoryBtn.addEventListener('click', async () => {
         var categoryName = document.querySelector("#category-name").value;
+
         if (categoryName != "") {
 
-            let categoryID;
-
-            // Save category to database
-            fetch(`${phpScriptsUrl}/insertCategory.php`, {
+            // Save category to database, which returns success message
+            // TODO: Return category id instead
+            const insertResult = await fetch(`${phpScriptsUrl}/insertCategory.php`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
                 },
                 body: `categoryName=${categoryName}`,
-            })
-            .then((response) => response.text())
-            .then((res) => {
-                categoryID = res;
+            }).then((response) => response.text());
 
-                document.getElementById("categoryOpResult").innerHTML = categoryID;
+            document.getElementById("categoryOpResult").innerHTML = insertResult;
 
-                alert(categoryID);
+            if (insertResult !== '' || insertResult != null) {
+                // Create new category obj with empty bookmarks
+                bookmarkCategories.push({
+                    category: categoryName, 
+                    bookmarks: [] 
+                });
+                
+                // Adds item to categories in DOM
+                addItemToCategories(categoryName);
+            }
 
-                if (categoryID !== '' || categoryID != null) {
-                    // Create new category obj with empty bookmarks
-                    bookmarkCategories.push({
-                        category: categoryName, 
-                        bookmarks: [] 
-                    });
-                    
-                    // Adds item to categories in DOM
-                    addItemToCategories(categoryName);
-                }
-
-                // Reset input field to empty
-                document.querySelector("#category-name").value = '';
-            });
+            // Reset input field to empty
+            document.querySelector("#category-name").value = '';
         }
         else {
             alert("Please fill in a category name to add");
@@ -238,7 +232,7 @@ function selectDefaultCategory() {
 }
 
 /* Called when Save Bookmark is clicked */
-function saveBookmark(e) {
+async function saveBookmark(e) {
     e.preventDefault(); // Prevent page from reloading
 
     let bookmarkName = document.getElementById("bookmark-name").value;
@@ -259,50 +253,45 @@ function saveBookmark(e) {
         return;
     }
 
-    // Insert into DB
-    const result = fetch(`${phpScriptsUrl}/insertBookmark.php`, {
+    // Insert bookmark into DB, which returns success message
+    // TODO: Return bookmark ID
+    const insertResult = await fetch(`${phpScriptsUrl}/insertBookmark.php`, {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
         },
         body: `categoryName=${category}&bookmarkName=${bookmarkName}&bookmarkUrl=${bookmarkUrl}`,
-    })
-    .then((response) => response.text())
-    .then((res) => {
-        document.getElementById("bookmarkOpResult").innerHTML = res;
-        console.log(res);
-    })
-    .catch(error => alert(error));
+    }).then((response) => response.text());
 
-    // ...
-    result.then(r => {
-        // Use categorySpan to get current selected category (for now)
-        // Then add item to array
-        var currentCategory = document.querySelector(".text").innerHTML;
-        var categoryIndex = bookmarkCategories.findIndex(b => b.category === currentCategory);
-        bookmarkCategories[categoryIndex].bookmarks.push({
-            name: bookmarkName,
-            url: bookmarkUrl
-        });
+    document.getElementById("bookmarkOpResult").innerHTML = insertResult;
 
-        let newIndex = bookmarkCategories[categoryIndex].bookmarks.length - 1;
+    // Use categorySpan to get current selected category (for now)
+    var currentCategory = document.querySelector(".text").innerHTML;
 
-        // Create and add item to DOM
-        var li = createBookmarkItem(bookmarkName, bookmarkUrl, newIndex);
-        var ul = document.querySelector("div.bookmarks > ul");
-
-        // Remove empty bookmarks message if there was no elements
-        // previously
-        if (ul.firstChild.innerHTML === "No bookmarks available") {
-            ul.firstChild.remove();
-        }
-
-        ul.appendChild(li);
-
-        // Clear inputs
-        document.getElementById("bookmark-name").value = "";
-        document.getElementById("bookmark-url").value = "";
+    // Add bookmark to the current category
+    var categoryIndex = bookmarkCategories.findIndex(b => b.category === currentCategory);
+    bookmarkCategories[categoryIndex].bookmarks.push({
+        name: bookmarkName,
+        url: bookmarkUrl
     });
+    
+    // New index of inserted item
+    let newIndex = bookmarkCategories[categoryIndex].bookmarks.length - 1;
+
+    // Create and add item to DOM
+    var li = createBookmarkItem(bookmarkName, bookmarkUrl, newIndex);
+    var ul = document.querySelector("div.bookmarks > ul");
+
+    // Remove empty bookmarks message if there was no elements previously
+    if (ul.firstChild.innerHTML === "No bookmarks available") {
+        ul.firstChild.remove();
+    }
+
+    ul.appendChild(li);
+
+    // Clear inputs
+    document.getElementById("bookmark-name").value = "";
+    document.getElementById("bookmark-url").value = "";
 }
 
 function addItemToCategories(categoryName, index) {
@@ -322,29 +311,26 @@ function addItemToCategories(categoryName, index) {
     var deleteBtn = document.createElement("button");
     deleteBtn.innerHTML = "Delete";
     deleteBtn.classList.add("delete-category-button");
-    deleteBtn.addEventListener('click', () => {
+    deleteBtn.addEventListener('click', async () => {
         var currentIndex = index;
 
         // Delete category from db & its corresponding bookmarks
-        fetch(`${phpScriptsUrl}/deleteCategory.php`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-                },
-                body: `categoryName=${category}`,
-            })
-            .then((response) => response.text())
-            .then((res) => {
-                document.getElementById("categoryOpResult").innerHTML = res;
+        const deleteResult = await fetch(`${phpScriptsUrl}/deleteCategory.php`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            },
+            body: `categoryName=${category}`,
+        }).then((response) => response.text());
 
-                if (res === "Deleted successfully!") {
-                    // Delete from in-memory array and update UI
-                    var i = bookmarkCategories.findIndex(c => c.category === category);
-                    bookmarkCategories.splice(i, 1);
-                    ul.removeChild(liElem);
-                }
-            })
-            .catch(error => alert(error));
+        document.getElementById("categoryOpResult").innerHTML = deleteResult;
+        
+        // Delete from in-memory array and update UI if successful
+        if (deleteResult === "Deleted successfully!") {
+            var i = bookmarkCategories.findIndex(c => c.category === category);
+            bookmarkCategories.splice(i, 1);
+            ul.removeChild(liElem);
+        }
     });
 
     // Configure rename button
@@ -524,7 +510,7 @@ function editBookmark(bookmarkTitle, url, index) {
 
     // Updates bookmark in database and then its in memory array
     // and the DOM
-    function updateBookmark() {
+    async function updateBookmark() {
         let bookmarkIndex = index;
         let newName = nameInput.value;
         let newUrl = urlInput.value;
@@ -542,83 +528,76 @@ function editBookmark(bookmarkTitle, url, index) {
         let params = `categoryName=${categoryName}&oldName=${originalName}&oldUrl=${originalUrl}&bookmarkName=${newName}&bookmarkUrl=${newUrl}`;
         console.log(params);
 
-        // Send request to update bookmark
-        fetch(`${phpScriptsUrl}/updateBookmark.php`, {
+        // Send request to update bookmark in DB
+        const updateResult = await fetch(`${phpScriptsUrl}/updateBookmark.php`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
             },
             body: params,
-        })
-        .then((response) => response.text())
-        .then((res) => {
-            console.log(res);
-            document.getElementById("bookmarkOpResult").innerHTML = res;
+        }).then((response) => response.text())
+        
+        document.getElementById("bookmarkOpResult").innerHTML = updateResult;
 
-            // Update bookmark in array
-            var categoryIndex = bookmarkCategories.findIndex(b => b.category === categoryName);
-            let bookmark = bookmarkCategories[categoryIndex].bookmarks[index];
-            bookmark.name = newName;
-            bookmark.url = newUrl;
-            
-            // Update list item in DOM
-            let list = document.querySelector(".bookmarks > ul");
-            let newLi = createBookmarkItem(bookmark.name, bookmark.url, bookmarkIndex);
-            list.replaceChild(newLi, list.childNodes[index]);
-            
-            // Re-hide modal on completion & remove event listener
-            modal.style.display = "none";
-            updateBookmarkBtn.removeEventListener('click', updateBookmark);
-        });
+        // Update bookmark in array
+        var categoryIndex = bookmarkCategories.findIndex(b => b.category === categoryName);
+        let bookmark = bookmarkCategories[categoryIndex].bookmarks[index];
+        bookmark.name = newName;
+        bookmark.url = newUrl;
+        
+        // Update list item in DOM
+        let list = document.querySelector(".bookmarks > ul");
+        let newLi = createBookmarkItem(bookmark.name, bookmark.url, bookmarkIndex);
+        list.replaceChild(newLi, list.childNodes[index]);
+        
+        // Re-hide modal on completion & remove event listener
+        modal.style.display = "none";
+        updateBookmarkBtn.removeEventListener('click', updateBookmark);
     }
 }
 
-function deleteBookmark(bookmarkTitle, url) {
+async function deleteBookmark(bookmarkTitle, url) {
     var currentCategory = document.querySelector(".text").innerHTML;
 
-    // Delete bookmark from db
-    const result = fetch(`${phpScriptsUrl}/deleteBookmark.php`, {
+    // Delete bookmark from DB
+    const deleteResult = await fetch(`${phpScriptsUrl}/deleteBookmark.php`, {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
         },
         body: `&categoryName=${currentCategory}&bookmarkName=${bookmarkTitle}&bookmarkUrl=${url}`,
-    })
-    .then((response) => response.text())
-    .then((res) => {
-        document.getElementById("bookmarkOpResult").innerHTML = res;
+    }).then((response) => response.text());
 
-        if (res === "Deleted successfully!") {
-            var title = bookmarkTitle;
+    document.getElementById("bookmarkOpResult").innerHTML = deleteResult;
 
-            // Delete from in memory list
-            var categoryIndex = bookmarkCategories.findIndex(b => b.category === currentCategory);
-            var bookmarkIndex = bookmarkCategories[categoryIndex].bookmarks.findIndex(b => b.name === title);
-            bookmarkCategories[categoryIndex].bookmarks.splice(bookmarkIndex, 1);
-        
-            // Continue deletion from DOM
-            // var test = document.querySelectorAll("div.bookmarks ul li");
-            var childElements = document.querySelectorAll("div.bookmark-body .bookmark-title");
-            var elementToDelete;
-            for (let elem of childElements) {
-        
-                // Get the specific li element to delete 
-                if (elem.innerHTML === title) {
-                    elementToDelete = elem.parentNode.parentNode;
-                }
-            }
-        
-            let ul = document.querySelector("div.bookmarks > ul");
-            ul.removeChild(elementToDelete);
+    if (deleteResult === "Deleted successfully!") {
+        var title = bookmarkTitle;
 
-            // Add empty message if no more bookmarks exist
-            if (ul.childElementCount === 0) {
-                let msg = createEmptyBookmarksMessage();
-                ul.appendChild(msg);
+        // Delete from in memory list
+        var categoryIndex = bookmarkCategories.findIndex(b => b.category === currentCategory);
+        var bookmarkIndex = bookmarkCategories[categoryIndex].bookmarks.findIndex(b => b.name === title);
+        bookmarkCategories[categoryIndex].bookmarks.splice(bookmarkIndex, 1);
+    
+        // Continue deletion from DOM
+        var childElements = document.querySelectorAll("div.bookmark-body .bookmark-title");
+
+        // Get the specific li element to delete 
+        var elementToDelete;
+        for (let elem of childElements) {
+            if (elem.innerHTML === title) {
+                elementToDelete = elem.parentNode.parentNode;
             }
         }
-    })
-    .catch(error => alert(error));
+    
+        let ul = document.querySelector("div.bookmarks > ul");
+        ul.removeChild(elementToDelete);
+
+        // Add empty message if no more bookmarks exist
+        if (ul.childElementCount === 0) {
+            let msg = createEmptyBookmarksMessage();
+            ul.appendChild(msg);
+        }
+    }
 }
 
 function isValidURL(url) {

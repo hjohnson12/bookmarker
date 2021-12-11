@@ -144,8 +144,8 @@ function configureModalEvents() {
                         category: categoryName, 
                         bookmarks: [] 
                     });
-
-                    // var ul = document.querySelector("#categoryItems");
+                    
+                    // Adds item to categories in DOM
                     addItemToCategories(categoryName);
                 }
 
@@ -238,15 +238,7 @@ function addClickListenerToNavItems() {
             }
 
             div.appendChild(ul);
-            
-            // Set active class
-            // if (this.classList.contains("active")) {
-            //     this.classList.remove("active");
-            // }
-            // else {
-            //     this.classList.add("active");
-            // }
-
+    
             // debug - log in console
             console.log(this.innerHTML + " Index = " + indexOfCategory);
         }
@@ -255,7 +247,6 @@ function addClickListenerToNavItems() {
 
 function createEmptyBookmarksMessage() {
     let emptyMsg = document.createElement('span');
-    // emptyText.classList.add("empty-bookmarks-msg");
     let text = document.createTextNode("No bookmarks available");
     emptyMsg.appendChild(text);
     return emptyMsg;
@@ -291,8 +282,7 @@ function saveBookmark(e) {
         return;
     }
 
-    // TESTTTT - Insert into DB
-    // Delete category from db
+    // Insert into DB
     const result = fetch(`${phpScriptsUrl}/insertBookmark.php`, {
         method: "POST",
         headers: {
@@ -303,7 +293,6 @@ function saveBookmark(e) {
     .then((response) => response.text())
     .then((res) => {
         document.getElementById("bookmarkOpResult").innerHTML = res;
-        // alert(res);
         console.log(res);
     })
     .catch(error => alert(error));
@@ -346,7 +335,6 @@ function addItemToCategories(categoryName, index) {
     // Configure li element
     var liElem = document.createElement("li");
     liElem.classList.add("category-item");
-    // liElem.innerHTML += category;
 
     var textSpan = document.createElement("span");
     var spanText = document.createTextNode(categoryName);
@@ -393,9 +381,7 @@ function addItemToCategories(categoryName, index) {
     div.appendChild(deleteBtn);
     div.appendChild(renameBtn);
 
-    // Append children
-    // liElem.appendChild(deleteBtn);
-    // liElem.appendChild(renameBtn);
+    // Append children for list item and ul
     liElem.appendChild(div);
     ul.appendChild(liElem);
 }
@@ -515,7 +501,6 @@ function newBookmark(bookmarkName) {
 
 function visitBookmark(url) {
     window.open(url, "_blank");
-    // window.location = url;
 }
 
 function editBookmark(bookmarkTitle, url, index) {
@@ -612,7 +597,6 @@ function editBookmark(bookmarkTitle, url, index) {
 }
 
 function deleteBookmark(bookmarkTitle, url) {
-    // alert("Delete bookmark selected");
     var currentCategory = document.querySelector(".text").innerHTML;
 
     // Delete bookmark from db
